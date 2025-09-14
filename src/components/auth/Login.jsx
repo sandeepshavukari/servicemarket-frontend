@@ -20,35 +20,65 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   setError('');
 
-    try {
-      const response = await authService.login(formData);
-      const { token, user } = response.data;
+  //   try {
+  //     const response = await authService.login(formData);
+  //     const { token, user } = response.data;
       
-      setToken(token);
-      setUser(user);
+  //     setToken(token);
+  //     setUser(user);
       
-      // Redirect based on role
-      switch (user.role) {
-        case 'admin':
-          navigate('/admin/dashboard');
-          break;
-        case 'worker':
-          navigate('/worker/requests');
-          break;
-        default:
-          navigate('/customer/requests');
-      }
-    } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
-    } finally {
-      setLoading(false);
+  //     // Redirect based on role
+  //     switch (user.role) {
+  //       case 'admin':
+  //         navigate('/admin/dashboard');
+  //         break;
+  //       case 'worker':
+  //         navigate('/worker/requests');
+  //         break;
+  //       default:
+  //         navigate('/customer/requests');
+  //     }
+  //   } catch (err) {
+  //     setError(err.response?.data?.message || 'Login failed');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError('');
+
+  try {
+    const response = await authService.login(formData);
+    const { token, user } = response.data;
+    
+    // Use the new setter functions that emit events
+    setToken(token);
+    setUser(user);
+    
+    // Redirect based on role
+    switch (user.role) {
+      case 'admin':
+        navigate('/admin/dashboard');
+        break;
+      case 'worker':
+        navigate('/worker/requests');
+        break;
+      default:
+        navigate('/customer/requests');
     }
-  };
+  } catch (err) {
+    setError(err.response?.data?.message || 'Login failed');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <Container className="mt-5">

@@ -1,4 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react'; // Added useEffect import
+import { useAuth } from './hooks/useAuth'; // Added useAuth import
 import AppNavbar from './components/common/Navbar';
 import PrivateRoute from './components/common/PrivateRoute';
 
@@ -24,6 +26,14 @@ import AdminDashboard from './components/admin/Dashboard';
 import UserProfile from './components/common/UserProfile';
 
 function App() {
+  const { user, isAuth, loading } = useAuth();
+  
+  useEffect(() => {
+    console.log('Auth state:', { isAuth, user, loading });
+    console.log('Local storage user:', localStorage.getItem('user'));
+    console.log('Local storage token:', localStorage.getItem('token'));
+  }, [user, isAuth, loading]);
+
   return (
     <div className="App">
       <AppNavbar />
